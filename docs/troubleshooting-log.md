@@ -178,3 +178,51 @@ Dropped refs/stash@{0} (8b88b2a660e2805293ed81470fabc741b17fd939)
 - **커밋 대신 `stash`를 선택한 이유:** 작업이 미완성이라 의미 있는 커밋 메시지를 붙일 수 없었습니다. 억지로 커밋하면 `wip` 같은 컨벤션 위반 메시지가 생기는데, 이는 바로 앞 amend 시나리오에서 실제로 겪은 문제입니다. stash를 쓰면 히스토리를 더럽히지 않고 작업만 잠시 치워둘 수 있습니다.
 - **`reset`/`revert` 대신 `stash`를 선택한 이유:** 두 명령은 **이미 만들어진 커밋**을 다루는 도구입니다. 이번 상황은 아직 커밋조차 되지 않은 작업 트리의 변경 사항을 잠시 보관하는 문제라, 히스토리를 건드리는 명령은 애초에 대상이 아니었습니다.
 - 정리하면, **커밋할 수 없는 미완성 작업을 유지한 채 branch를 전환해야 하는 상황**이 `stash`의 사용 조건과 정확히 일치했습니다.
+
+
+
+------
+
+
+## 시나리오: git reset --soft HEAD~1
+### 참여자
+- mov-hyun(이동현)
+
+### 상황
+- `docs/troubleshooting-log.md`에 reset soft 실습 초안을 작성하고 `docs: add reset soft draft` 커밋을 만들었다.
+- 해당 커밋은 아직 원격에 push하지 않은 로컬 커밋이었다.
+- 초안 커밋을 취소하되 작성한 변경 내용은 유지한 뒤, 내용을 정리해서 새 커밋으로 다시 기록해야 했다.
+- feature/troubleshooting-reset-soft-mov-hyun branch를 사용하여 시나리오를 구현한다.
+
+### 시도한 명령/절차
+```
+docs/troubleshooting-log.md 파일에 reset soft 실습 초안 작성
+git add docs/troubleshooting-log.md
+git commit -m "docs: add reset soft draft"
+
+git reset --soft HEAD~1
+git status
+```
+
+### 증빙(Evidence)
+- ![reset soft 실습 초안 작성](../images/reset-soft-draft.png)
+- ![reset soft 실행 전 초안 커밋 확인](../images/reset-soft-before.png)
+- ![reset soft 실행 후 staged 상태 확인](../images/reset-soft-after.png)
+- ![reset soft 실행 흐름 확인](../images/reset-soft-reflog.png)
+
+### 결과
+- 최근 로컬 커밋인 `docs: add reset soft draft`가 취소되었다.
+- 파일 변경 내용은 사라지지 않고 staged 상태로 유지되었다.
+- 초안 내용을 정리한 뒤 `docs: document reset soft troubleshooting` 커밋으로 다시 기록할 수 있게 되었다.
+
+### 주의할 점
+- `git reset --soft HEAD~1`은 최근 커밋만 취소하고 변경 내용은 staging area에 남긴다.
+- reset 후 문서를 다시 수정했다면, 최종 내용을 반영하기 위해 `git add docs/troubleshooting-log.md`를 다시 실행해야 한다.
+- 이미 원격에 push되어 팀원과 공유된 커밋에는 reset을 사용하지 않는다. 공유된 커밋을 되돌릴 때는 `git revert`를 사용한다.
+- `git reset --hard HEAD~1`은 커밋과 작업 내용까지 함께 삭제할 수 있으므로, 변경 내용을 보존해야 하는 상황에서는 사용하지 않는다.
+
+### 왜 이 방법을 선택했는가(Why)
+- **`reset --soft`를 선택한 이유:** 문제의 커밋은 아직 원격에 push하지 않은 로컬 커밋이었다. 커밋 기록만 취소하고 작성한 내용은 유지해야 했기 때문에 `--soft` 옵션이 적합했다.
+- **`revert`가 적합한 경우:** 원격에 push되어 팀원과 공유된 커밋을 되돌릴 때는 `revert`를 사용한다. 이번 커밋은 로컬에만 있었기 때문에 되돌림 커밋을 추가할 필요가 없었다.
+- **`reset --hard`가 적합하지 않은 이유:** 작성한 문서 내용은 보존해야 했다. `--hard`는 작업 내용까지 잃을 수 있으므로 이번 상황에 맞지 않는다.
+- 정리하면, **아직 push하지 않은 최근 로컬 커밋을 취소하고 변경 내용은 유지해야 하는 상황**이 `git reset --soft HEAD~1`의 사용 조건과 일치했다.
