@@ -61,16 +61,37 @@ git push origin feature/troubleshooting-amend (amend 완료 후 최초 push)
 
 #### amend 전 `git log --oneline -3`
 ```txt
-(실습 후 실제 출력으로 대체)
+2f70ce8 (HEAD -> feature/troubleshooting-amend) wip
+b919147 (origin/main, origin/HEAD, main) Merge pull request #17 from codyssey-git-workflow/feature/trivial-conflict-a
+133dbc7 (origin/feature/trivial-conflict-a) docs : 자명충돌 관련 실습 내용 문서화
 ```
+- ![amend 전 git log](../images/amend-before.png)
 
 #### amend 후 `git log --oneline -3`
 ```txt
-(실습 후 실제 출력으로 대체)
+10af58d (HEAD -> feature/troubleshooting-amend) docs: add git commit --amend troubleshooting log
+b919147 (origin/main, origin/HEAD, main) Merge pull request #17 from codyssey-git-workflow/feature/trivial-conflict-a
+133dbc7 (origin/feature/trivial-conflict-a) docs : 자명충돌 관련 실습 내용 문서화
 ```
+- ![amend 후 git log](../images/amend-after.png)
 
 ### 결과
-- (실습 후 작성)
+- 커밋 메시지가 `wip` → `docs: add git commit --amend troubleshooting log`로 수정되어 커밋 컨벤션을 만족하게 됨
+- **커밋 해시가 `2f70ce8` → `10af58d`로 함께 변경됨.** 메시지만 갈아끼운 것이 아니라, 같은 변경 내용을 담은 **새로운 커밋 객체가 생성되어 기존 커밋을 대체**한 것임
+- 부모 커밋(`b919147`, `133dbc7`)은 그대로 유지됨. amend는 **직전 커밋 1개에만** 영향을 줌
+- 대체된 `2f70ce8`은 히스토리에서 떨어져 나갔지만 로컬 `git reflog`에는 남아 있어, 실수한 경우 `git reset --hard 2f70ce8`로 되돌릴 수 있음
+
+```txt
+$ git reflog -2
+10af58d HEAD@{0}: commit (amend): docs: add git commit --amend troubleshooting log
+2f70ce8 HEAD@{1}: commit: wip
+```
+
+### 주의할 점 (원격 히스토리/협업 영향)
+- **amend는 반드시 `push` 이전에 수행한다.** 이미 push한 커밋을 amend하면 원격에는 옛 커밋(`2f70ce8`)이, 로컬에는 새 커밋(`10af58d`)이 남아 히스토리가 갈라진다. 이를 맞추려면 `git push --force`가 필요한데, 강제 푸시는 **팀 합의 없이 금지**되어 있다(다른 팀원의 로컬 히스토리와 원격이 엇갈림).
+- 이번 실습에서는 `wip` 커밋을 push하지 않은 상태에서 amend했기 때문에, 이후 `git push`를 강제 옵션 없이 한 번만 수행하면 되었다.
 
 ### 왜 이 방법을 선택했는가(Why)
-- (실습 후 작성)
+- **`revert` 대신 `amend`를 선택한 이유:** 문제는 커밋의 *내용*이 아니라 *메시지*였고, 해당 커밋은 아직 로컬에만 존재했습니다. `revert`는 원격에 공유된 커밋을 되돌릴 때 쓰는 방법이라, 되돌리는 커밋이 하나 더 쌓여 히스토리만 지저분해집니다.
+- **`reset --soft` 대신 `amend`를 선택한 이유:** `git reset --soft HEAD~1` 후 다시 커밋해도 결과는 같지만, 직전 커밋의 메시지만 고치는 경우에는 `amend` 한 줄이면 충분합니다. `reset`은 커밋을 되돌려 여러 변경을 다시 묶거나 나눌 때 더 적합합니다.
+- 정리하면, **아직 push하지 않은 직전 커밋의 메시지 수정**이라는 조건이 `amend`의 사용 조건과 정확히 일치했습니다.
