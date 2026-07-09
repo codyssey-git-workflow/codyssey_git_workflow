@@ -60,6 +60,11 @@ CONFLICT (content): Merge conflict in docs/conflict-resolution.md
 Automatic merge failed; fix conflicts and then commit the result.
 ~~~
 
+### 증빙(Evidence)
+- ![비자명 충돌 발생 로그](../images/conflict5.png)
+- ![충돌 발생 직후 diff 확인](../images/conflict6.png)
+- ![충돌 마커 확인](../images/conflict7.png)
+
 ### 충돌 내용(Conflict markers)
 ~~~txt
 <<<<<<< HEAD
