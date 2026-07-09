@@ -84,6 +84,15 @@ Automatic merge failed; fix conflicts and then commit the result.
 - ![충돌 발생 직후 diff 확인](../images/conflict6.png)
 - ![충돌 마커 확인](../images/conflict7.png)
 
+### 충돌 내용(Conflict markers)
+```txt
+<<<<<<< HEAD
+mov-hyun 브랜치에서 작성한 비자명 충돌 기록 초안
+=======
+origin/main에 병합된 star-candy의 자명 충돌 기록
+>>>>>>> origin/main
+```
+
 ### 해결 과정(How)
 - 팀원이 작성한 자명 충돌 기록은 변경하지 않고 그대로 유지했다.
 - mov-hyun의 비자명 충돌 기록을 문서 하단에 새 섹션으로 추가했다.
