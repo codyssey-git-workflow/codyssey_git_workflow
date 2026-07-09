@@ -45,7 +45,7 @@
 | PR | [#6](https://github.com/codyssey-git-workflow/codyssey_git_workflow/pull/6) | docs: star-candy 팀 소개 작성 (Closes #5) |
 | PR | [#9](https://github.com/codyssey-git-workflow/codyssey_git_workflow/pull/9) | refactor: 팀 문서 파일 형식 수정 (Closes #8) |
 | PR | [#12](https://github.com/codyssey-git-workflow/codyssey_git_workflow/pull/12) | feat: git revert 실습 및 문서 작성 (Closes #11) |
-| PR | [#16](https://github.com/codyssey-git-workflow/codyssey_git_workflow/pull/16) | docs: 비자명 충돌 템플릿 구현 (선행 작업 — 후속 PR #17에서 이슈 연동) |
+| PR | [#16](https://github.com/codyssey-git-workflow/codyssey_git_workflow/pull/16) | docs: 비자명 충돌 템플릿 구현 (Closes #14) |
 | PR | [#17](https://github.com/codyssey-git-workflow/codyssey_git_workflow/pull/17) | feat: 자명 충돌 실습 및 문서화 (Closes #14, Closes #15) |
 
 ### 임대균 ([@yun-lim](https://github.com/yun-lim))
