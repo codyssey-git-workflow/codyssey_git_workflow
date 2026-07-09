@@ -11,8 +11,8 @@
 | 이름 | GitHub | 한 줄 소개 | 소개 문서 |
 | --- | --- | --- | --- |
 | 임대균 | [@yun-lim](https://github.com/yun-lim) | AI, Agent, Product를 좋아하는 마리너입니다. | [team/yun-lim.md](./team/yun-lim.md) |
-| 신희수 | [@star-candy](https://github.com/star-candy) | 광운대학교 소프트웨어학부 재학 중입니다. | [team/star-candy.md](./team/star-candy.md) |
-| 이동현 | [@mov-hyun](https://github.com/mov-hyun) | 명지대학교 경영정보학과 · 응용데이터사이언스 재학 중입니다. | [team/mov-hyun.md](./team/mov-hyun.md) |
+| 신희수 | [@star-candy](https://github.com/star-candy) | ai, 정보보안에 관심이 있는 마리너입니다. 잘부탁드립니다! | [team/star-candy.md](./team/star-candy.md) |
+| 이동현 | [@mov-hyun](https://github.com/mov-hyun) | AI로 새로운 가치를 만들어가고자 하는 이동현 마리너입니다. | [team/mov-hyun.md](./team/mov-hyun.md) |
 
 ---
 
